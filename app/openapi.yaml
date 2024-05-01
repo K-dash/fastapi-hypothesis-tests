@@ -1,0 +1,208 @@
+openapi: 3.1.0
+info:
+  title: FastAPI
+  version: 0.1.0
+paths:
+  "/users":
+    get:
+      summary: Get Users
+      operationId: get_users_users_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GetUsersSchema"
+    post:
+      summary: Create User
+      operationId: create_user_users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CreateUserSchema"
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GetUserSchema"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  "/users/{user_id}":
+    get:
+      summary: Get User
+      operationId: get_user_users__user_id__get
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GetUserSchema"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+    put:
+      summary: Update User
+      operationId: update_user_users__user_id__put
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CreateUserSchema"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GetUserSchema"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+    delete:
+      summary: Delete User
+      operationId: delete_user_users__user_id__delete
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: User Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+components:
+  schemas:
+    CreateUserSchema:
+      properties:
+        profile:
+          "$ref": "#/components/schemas/UserProfileSchema"
+      additionalProperties: false
+      type: object
+      required:
+      - profile
+      title: CreateUserSchema
+    GetUserSchema:
+      properties:
+        profile:
+          "$ref": "#/components/schemas/UserProfileSchema"
+        id:
+          type: string
+          format: uuid
+          title: Id
+        lastupdated:
+          type: string
+          format: date-time
+          title: Lastupdated
+          default: '2024-05-01T07:57:46.230008+09:00'
+      additionalProperties: false
+      type: object
+      required:
+      - profile
+      - id
+      title: GetUserSchema
+    GetUsersSchema:
+      properties:
+        users:
+          items:
+            "$ref": "#/components/schemas/GetUserSchema"
+          type: array
+          title: Users
+      type: object
+      required:
+      - users
+      title: GetUsersSchema
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            "$ref": "#/components/schemas/ValidationError"
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserProfileSchema:
+      properties:
+        name:
+          type: string
+          title: Name
+          minLength: 1
+        age:
+          anyOf:
+          - type: integer
+            maximum: 120
+            minimum: 0
+          title: Age
+        email:
+          type: string
+          format: email
+          title: Email
+          pattern: "^\\S+@\\S+\\.\\S+$"
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - age
+      - email
+      title: UserProfileSchema
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
