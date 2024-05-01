@@ -2,8 +2,7 @@ services:
   api:
     container_name: "api"
     volumes:
-      - ./app:/workspace/app:cached
-      - ./scripts:/workspace/scripts:cached
+      - .:/workspace
     build:
       context: .
       dockerfile: Dockerfile
