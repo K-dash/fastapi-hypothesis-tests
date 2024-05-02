@@ -36,81 +36,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/HTTPValidationError"
-  "/users/{user_id}":
-    get:
-      summary: Get User
-      operationId: get_user_users__user_id__get
-      parameters:
-      - name: user_id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-          title: User Id
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/GetUserSchema"
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/HTTPValidationError"
-    put:
-      summary: Update User
-      operationId: update_user_users__user_id__put
-      parameters:
-      - name: user_id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-          title: User Id
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/CreateUserSchema"
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/GetUserSchema"
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/HTTPValidationError"
-    delete:
-      summary: Delete User
-      operationId: delete_user_users__user_id__delete
-      parameters:
-      - name: user_id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-          title: User Id
-      responses:
-        '204':
-          description: Successful Response
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/HTTPValidationError"
 components:
   schemas:
     CreateUserSchema:
@@ -134,7 +59,7 @@ components:
           type: string
           format: date-time
           title: Lastupdated
-          default: '2024-05-01T07:57:46.230008+09:00'
+          default: '2024-05-01T18:08:52.151287+09:00'
       additionalProperties: false
       type: object
       required:
